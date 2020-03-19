@@ -1,12 +1,12 @@
-#Blockchain System for Decentralised Smart Grid Technology
+# Blockchain System for Decentralised Smart Grid Technology
 **Blockchain.py - faulty test version**
 
 **Blockchain2.py - is correct version with the implementation of sha256 hashing algorithm**
 
 **Blockchain3.py - is undertest version with the implementation of sha512 hashing algorithm**
 
-#Under Development Backend Based Blockachain Application for Smart Grid Technology
-##How to execute flask based web application of blockchain implemented in python
+# Under Development Backend Based Blockachain Application for Smart Grid Technology
+## How to execute flask based web application of blockchain implemented in python
 
 **Step1-Install Postman on your PC**
 
