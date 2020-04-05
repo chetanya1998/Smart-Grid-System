@@ -1,22 +1,15 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 19 23:12:44 2020
-
-@author: chetanya
-"""
-# Blockchain for smart grid system
+# Blockchain for Smart Grid System
+# importing libraries
 import datetime
 import hashlib
 import json
 from flask import Flask ,jsonify
 #blockchain devpart
-class Blockchain:
-    
+class SG_network:
     def __init__(self):
         self.chain = []
         self.create_block(proof = 1, previous_hash = '0')
-        
+#Mechanism for creating new block for transaction record
     def create_block(self,proof,previous_hash):
         block = {'index':len(self.chain) + 1,
                  'timestamp':str(datetime.datetime.now()),
@@ -25,9 +18,10 @@ class Blockchain:
                  }
         self.chain.append(block)
         return block
+#function to return previous block of transaction
     def get_previous_block(self):
         return self.chain[-1]
-    
+#POW Algorithm - to avoid 51% majority attack
     def proof_of_work(self, previous_proof):
         new_proof = 1
         check_proof = False
@@ -42,7 +36,7 @@ class Blockchain:
     def hash(self, block):
         encoded_block = json.dumps(block, sort_keys = True).encode()
         return hashlib.sha256(encoded_block).hexdigest()
-    
+#Block verification system based on POW(proof_of_work)
     def is_chain_valid(self,chain):
         previous_block = chain[0]
         block_index = 1
@@ -64,33 +58,32 @@ class Blockchain:
 
 app = Flask(__name__)
         
-#creatinga blockchain
+#creating a blockchain for Smart Grid
 
-blockchain = Blockchain()
+sg = SG_network()
 
 #Mining a blockchain
 
-
+#route for adding new block of transaction in Smart Grid SG_network
 @app.route('/mine_block',methods = ['GET'])
 def mine_block():
-    previous_block = blockchain.get_previous_block()
+    previous_block = sg.get_previous_block()
     previous_proof = previous_block['proof']
-    proof = blockchain.proof_of_work(previous_proof)
-    previous_hash = blockchain.hash(previous_block)
-    block = blockchain.create_block(proof, previous_hash)
-    response = {'message:':'Congratulations,you just mined a block',
+    proof = sg.proof_of_work(previous_proof)
+    previous_hash = sg.hash(previous_block)
+    block = sg.create_block(proof, previous_hash)
+    response = {'message:':'Congratulations,you just added a new block of transaction',
                 'index':block['index'],
                 'timestamp':block['timestamp'],
                 'proof':block['proof'],
                 'previous_hash':block['previous_hash']
                 }
     return jsonify(response),200
-# getting the full blockchain
-
+# route for viewing or getting information of all transactions in Smart_Grid network
 @app.route('/get_chain',methods = ['GET'])
 def get_chain():
-    response = {'chain':blockchain.chain,
-                'length':len(blockchain.chain)}
+    response = {'chain':sg.chain,
+                'length':len(sg.chain)}
     return jsonify(response), 200
 
 # run app
