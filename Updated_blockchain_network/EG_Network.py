@@ -36,7 +36,7 @@ class SG_network:
     def hash(self, block):
         encoded_block = json.dumps(block, sort_keys = True).encode()
         return hashlib.sha256(encoded_block).hexdigest()
-#Block verification system based on POW(proof_of_work)
+#Chain verification system based on POW(proof_of_work)
     def is_chain_valid(self,chain):
         previous_block = chain[0]
         block_index = 1
